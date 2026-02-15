@@ -1,6 +1,6 @@
 ﻿namespace AmmoniteArchive;
 
-partial class Form1
+partial class MainForm
 {
     /// <summary>
     ///  Required designer variable.
@@ -30,7 +30,7 @@ partial class Form1
     {
         components = new System.ComponentModel.Container();
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(800, 450);
+        ClientSize = new Size(800, 600);
         Text = "Ammonite Archive";
     }
 

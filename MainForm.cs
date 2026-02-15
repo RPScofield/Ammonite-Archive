@@ -1,12 +1,10 @@
 namespace AmmoniteArchive;
 
-public partial class Form1 : Form
+public partial class MainForm : Form
 {
-    public Form1()
+    public MainForm()
     {
         InitializeComponent();
-        this.Text = "Ammonite Archive";
-        this.Size = new Size(800, 600);
         
         // Add welcome message
         var welcomeLabel = new Label
