@@ -1,0 +1,43 @@
+name: Build and Release Ammonite Archive
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  release:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Restore Dependencies
+      run: dotnet restore
+
+    - name: Publish Standalone EXE
+      # This replaces the legacy x86 architecture with modern win-x64
+      run: |
+        dotnet publish -c Release -r win-x64 --self-contained true `
+        /p:PublishSingleFile=true /p:PublishReadyToRun=true `
+        -o ./publish
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: v${{ github.run_number }}
+        name: Ammonite Archive Release ${{ github.run_number }}
+        draft: false
+        prerelease: false
+        # Points to the standalone file created in the publish step
+        files: ./publish/AmmoniteArchive.exe
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
